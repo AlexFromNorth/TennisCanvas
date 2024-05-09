@@ -1,16 +1,27 @@
 const canvas = document.getElementById("canvas");
 const restartBtn = document.querySelector('.restart')
+const addedBalls_btn = document.querySelector('.addedBalls_btn')
+
 const ball = canvas.getContext("2d");
 
-
-
+// added any balls
+function addedBalls(number){
+    for(let i = 0; i < number; i++){
+        ballObj.push({x: canvasSize.x/2, y: canvasSize.y/2, xV: random(), yV: random(), size: 10})
+    }
+}
+//added btn
+addedBalls_btn.addEventListener('click', ()=>{
+    const addedBalls_input = document.querySelector('.addedBalls_input').value
+    addedBalls(+addedBalls_input)
+})
 
 // click to restart btn
 restartBtn.addEventListener('click',()=>restart())
 
 // default params
 const canvasSize = {x: 600, y: 600}
-const ballObj = {x: canvasSize.x/2, y: canvasSize.y/2, xV: random(), yV: random(), size: 10}
+let ballObj = [{x: canvasSize.x/2, y: canvasSize.y/2, xV: random(), yV: random(), size: 10}]
 const mouseObj = {x : 0, y : 0, xV : 0, yV : 0}
 
 canvas.width = canvasSize.x
@@ -28,32 +39,34 @@ canvas.addEventListener('mousemove',(e)=>{
 })
 
 canvas.addEventListener('mouseout',(e)=>{
-    mouseOut()
+    mouseOut() 
 })
 
 // ball move
 (function drawCanvas(){
     ball.clearRect(0, 0, canvasSize.x, canvasSize.y)
 
-    ballObj.x += ballObj.xV
-    ballObj.y += ballObj.yV
+    ballObj.forEach((e,i)=>{
 
-    ball.fillRect(ballObj.x, ballObj.y, ballObj.size, ballObj.size);
-
-    // ball move
-    if( ballObj.x <= 0 || ballObj.x >= canvasSize.x - ballObj.size ){
-        ballObj.xV = -ballObj.xV
-    }
-    if( ballObj.y <= 0 || ballObj.y >= canvasSize.y - ballObj.size){
-        ballObj.yV = -ballObj.yV
-    }
+        ballObj[i].x += ballObj[i].xV
+        ballObj[i].y += ballObj[i].yV
     
-    // hovered mouse to the ball
-    if(mouseObj.x >= ballObj.x && mouseObj.x <= ballObj.x + ballObj.size && mouseObj.y >= ballObj.y && mouseObj.y <= ballObj.y + ballObj.size){
-        ballObj.xV = (ballObj.xV + mouseObj.xV/2)/2
-        ballObj.yV = (ballObj.yV + mouseObj.yV/2)/2
-    } 
-
+        ball.fillRect(ballObj[i].x, ballObj[i].y, ballObj[i].size, ballObj[i].size);
+    
+        // ball move
+        if( ballObj[i].x <= 0 || ballObj[i].x >= canvasSize.x - ballObj[i].size ){
+            ballObj[i].xV = -ballObj[i].xV
+        }
+        if( ballObj[i].y <= 0 || ballObj[i].y >= canvasSize.y - ballObj[i].size){
+            ballObj[i].yV = -ballObj[i].yV
+        }
+        
+        // hovered mouse to the ball
+        if(mouseObj.x >= ballObj[i].x && mouseObj.x <= ballObj[i].x + ballObj[i].size && mouseObj.y >= ballObj[i].y && mouseObj.y <= ballObj[i].y + ballObj[i].size){
+            ballObj[i].xV = (ballObj[i].xV + mouseObj.xV/2)/2
+            ballObj[i].yV = (ballObj[i].yV + mouseObj.yV/2)/2
+        } 
+    })
 
     requestAnimationFrame(drawCanvas)
 }())
