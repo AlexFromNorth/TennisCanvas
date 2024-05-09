@@ -2,24 +2,15 @@ const canvas = document.getElementById("canvas");
 const restartBtn = document.querySelector('.restart')
 const ball = canvas.getContext("2d");
 
-function restart(){
-    ballObj.x = canvasSize.x/2
-    ballObj.y = canvasSize.y/2
-    
-    ballObj.xV = 1
-    ballObj.yV = 1
-}
-function mouseOut(){
-     mouseObj.x = -10
-     mouseObj.y = -10
-}
+
+
 
 // click to restart btn
 restartBtn.addEventListener('click',()=>restart())
 
 // default params
 const canvasSize = {x: 600, y: 600}
-const ballObj = {x: canvasSize.x/2, y: canvasSize.y/2, xV: 1, yV: 1, size: 10}
+const ballObj = {x: canvasSize.x/2, y: canvasSize.y/2, xV: random(), yV: random(), size: 10}
 const mouseObj = {x : 0, y : 0, xV : 0, yV : 0}
 
 canvas.width = canvasSize.x
